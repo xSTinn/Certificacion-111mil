@@ -97,7 +97,7 @@ DELIMITER $$
 USE `centrocultural`$$
 CREATE DEFINER = CURRENT_USER TRIGGER `centrocultural`.`inscripciones_BEFORE_INSERT` BEFORE INSERT ON `inscripciones` FOR EACH ROW
 BEGIN
-SELECT count(*) INTO @A from inscripciones where estado = 'ACEPTADA';
+SELECT count(*) INTO @A from inscripciones where estado = 'ACEPTADA' AND idCurso = NEW.idCurso;
 SELECT cupo INTO @B from cursos where idCurso = NEW.idCurso;
 if @A >= @B THEN
   SET NEW.estado = 'CONDICIONAL';
